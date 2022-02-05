@@ -1,0 +1,1 @@
+const MAX_LOANED_BOOKS = 2;
