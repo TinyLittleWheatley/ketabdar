@@ -1,11 +1,14 @@
 {
-    "compilerOptions": {
-      "experimentalDecorators": true,
-      "sourceMap": true,
-      "outDir": "dist",
-      "strict": true,
-      "lib": ["esnext"],
-      "esModuleInterop": true
-    }
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "outDir": "dist",
+    "strict": true,
+    "lib": [
+      "esnext"
+    ],
+    "esModuleInterop": true,
+    "target": "es5"
+
   }
-  
+}

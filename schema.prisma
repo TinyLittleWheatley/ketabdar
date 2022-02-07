@@ -14,13 +14,13 @@ model Book {
   id           Int      @id @default(autoincrement())
   title        String
   author       String
-  publish_date DateTime
+  publish_year Int?
   User         User?    @relation(fields: [userId], references: [id])
   userId       Int?
 }
 
 model User {
-  id    Int    @id @default(autoincrement())
-  name  String
+  id    Int    @id
+  // name  String
   books Book[]
 }
