@@ -105,3 +105,12 @@ dist
 
 # Containers docker file
 Dockerfile
+
+# Migrations
+migrations/
+
+# Certificate files
+*.pem
+
+# Vpn config
+vpn.config
