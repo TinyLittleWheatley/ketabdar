@@ -6,6 +6,10 @@ export interface CustomContext extends Context {
 }
 
 let middlewares: Array<MiddlewareFn<CustomContext>> = [
+    async function logger(ctx, next) {
+        next()
+        console.log(ctx.from)
+    },
     async function user_manager_middleware(ctx, next) {
         if (ctx.from)
             ctx.user = new UserManager(ctx.from.id);
