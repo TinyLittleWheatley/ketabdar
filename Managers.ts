@@ -12,12 +12,12 @@ class UserManager {
 
     id: number;
 
-    set name(value: string) {
-        prisma.user.update({
-            where: { id: this.id },
-            data: { name: value },
-        });
-    }
+    // set name(value: string) {
+    //     prisma.user.update({
+    //         where: { id: this.id },
+    //         data: { name: value },
+    //     });
+    // }
 
     constructor(id: number) {
         this.id = id;
