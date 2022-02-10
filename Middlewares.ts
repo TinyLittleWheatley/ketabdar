@@ -8,7 +8,10 @@ export interface CustomContext extends Context {
 let middlewares: Array<MiddlewareFn<CustomContext>> = [
     async function logger(ctx, next) {
         next()
-        console.log(ctx.from)
+        if (ctx.message && "text" in ctx.message)
+            console.log(`${ctx.from?.username}: ${ctx.message.text}`)
+        else
+            console.log(`${ctx.from?.username}: ${ctx.updateType}`)
     },
     async function user_manager_middleware(ctx, next) {
         if (ctx.from)
