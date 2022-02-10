@@ -29,7 +29,7 @@ class LibraryController extends Controller {
     constructor(bot: Telegraf) {
         super(bot);
         this.bot.command("borrow", this.borrow);
-        this.bot.command("borrow", this.search);
+        this.bot.command("serach", this.search);
     }
     borrow(ctx: CustomContext) {
         if (!ctx.user)
