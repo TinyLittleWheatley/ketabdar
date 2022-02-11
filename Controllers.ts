@@ -1,7 +1,7 @@
 import { prisma } from '@prisma/client';
 import { Telegraf, Context, Middleware } from 'telegraf'
 import { CustomContext } from './Middlewares'
-import {BookManager} from './Managers'
+import { BookManager } from './Managers'
 
 class Controller {
     bot: Telegraf;
@@ -29,18 +29,24 @@ class LibraryController extends Controller {
     constructor(bot: Telegraf) {
         super(bot);
         this.bot.command("borrow", this.borrow);
-        this.bot.command("serach", this.search);
+        this.bot.command("search", this.search);
     }
     borrow(ctx: CustomContext) {
         if (!ctx.user)
             return
-        if (ctx.message && "text" in ctx.message){
+        if (ctx.message && "text" in ctx.message) {
             let bookId = Number(ctx.message.text.split(' ')[1])
             new BookManager(bookId).reserve(ctx.user).then(() => ctx.reply('done!')).catch((e) => ctx.reply(e))
         }
     }
-    search(ctx: CustomContext) {
-
+    async search(ctx: CustomContext) {
+        if (!ctx.user)
+            return
+        if (ctx.message && "text" in ctx.message) {
+            let queries = ctx.message.text.split(' ').slice(1)
+            let result = await BookManager.serach(queries)
+            ctx.reply(result.reduce(((accumulator: string, curr: any):string=> accumulator + JSON.stringify(curr)), "" as string))
+        }
     }
 }
 

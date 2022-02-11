@@ -3,13 +3,13 @@ import { Context } from 'telegraf';
 import CONSTS from './Constants';
 const prisma = new PrismaClient();
 
-class BaseManager{
-    id:number;
-    constructor(id:number){
-        this.id=id
+class BaseManager {
+    id: number;
+    constructor(id: number) {
+        this.id = id
     }
 }
-class UserManager extends BaseManager{
+class UserManager extends BaseManager {
     static async register(data: User) {
         return prisma.user.create({ data: data });
     }
@@ -33,24 +33,31 @@ class UserManager extends BaseManager{
     }
 }
 
-class BookManager extends BaseManager{
-    async reserve(user:UserManager){
-        if((await this.data)?.userId!==null)
-            throw 'the book isnt available'
-        if((await user.books).length>=CONSTS.MAX_LOANED_BOOKS)
-            throw 'too many loaned books'
-        this.loan=user.id
-        
-    }
-    get data(){
-        return prisma.book.findFirst({
-            where:{id:this.id},
+class BookManager extends BaseManager {
+    static async serach(queries: Array<String>) {
+        return prisma.book.findMany({
+            where: {
+                AND: queries.map((value): any => ({ title: { contains: value } }))
+            }
         })
     }
-    set loan(userId:number){
+    async reserve(user: UserManager) {
+        if ((await this.data)?.userId !== null)
+            throw 'the book isnt available'
+        if ((await user.books).length >= CONSTS.MAX_LOANED_BOOKS)
+            throw 'too many loaned books'
+        this.loan = user.id
+
+    }
+    get data() {
+        return prisma.book.findFirst({
+            where: { id: this.id },
+        })
+    }
+    set loan(userId: number) {
         prisma.book.update({
-            where:{id:this.id},
-            data:{userId:userId}
+            where: { id: this.id },
+            data: { userId: userId }
         })
     }
 }
